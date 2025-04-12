@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- index.html -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Vlog Life</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    header { background: #333; color: white; padding: 20px; text-align: center; }
+    .container { display: flex; flex-wrap: wrap; justify-content: center; margin: 30px; gap: 20px; }
+    .card {
+      background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 250px; text-align: center; padding: 20px; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); }
+    a { text-decoration: none; color: inherit; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Life</h1>
+    <p>Choose a part of my journey</p>
+  </header>
+  <div class="container">
+    <a href="cricket.html"><div class="card">Cricket Life</div></a>
+    <a href="gym.html"><div class="card">Gym Life</div></a>
+    <a href="normal.html"><div class="card">Normal Life</div></a>
+  </div>
+</body>
+</html>
