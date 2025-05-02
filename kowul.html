@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kowul Wasanthaya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      padding: 20px;
+      margin: 0;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      background-color: #ff0055;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: background 0.3s ease;
+      font-size: 16px;
+    }
+
+    .nav-btn:hover {
+      background-color: #ff3366;
+    }
+
+    h2 {
+      color: #ff66b2;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .video-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 340px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .comment-section {
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .comment-section h3 {
+      color: #ffccdd;
+      text-align: center;
+    }
+
+    .comment-section label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #ffccdd;
+    }
+
+    .comment-section input,
+    .comment-section textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #2e2e2e;
+      color: white;
+    }
+
+    .comment-section button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff0055;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .comment-section button:hover {
+      background-color: #ff3366;
+    }
+
+    .comment-list {
+      margin-top: 20px;
+    }
+
+    .comment {
+      background-color: #2a2a2a;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .comment strong {
+      color: #ff99cc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header><a href="index.html">Dinatha Pahasara</a></header>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="photography.html" class="nav-btn">⬅️ ආපසු යන්න</a>
+    <a href="index.html" class="nav-btn">🏠 මුල් පිටුවට</a>
+  </div>
+
+  <!-- Page Title -->
+  <h2>Kowul Wasanthaya - කොවුල් වසන්තය</h2>
+  <p style="text-align:center;">මෙන්න අපේ පෲසි වීඩියෝව සහ අදහස් කොටස.</p>
+
+  <!-- Video Section -->
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/oHIj0zUgDhc"
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="comment-section">
+    <h3>විඩියෝවට අදහස් දෙන්න</h3>
+    <form id="commentForm">
+      <label for="name">නම</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="comment">අදහස</label>
+      <textarea id="comment" name="comment" rows="4" required></textarea>
+
+      <button type="submit">යවන්න</button>
+    </form>
+
+    <div class="comment-list" id="commentList"></div>
+  </div>
+
+  <!-- JavaScript for comment handling -->
+  <script>
+    const form = document.getElementById('commentForm');
+    const commentList = document.getElementById('commentList');
+
+    function loadComments() {
+      const saved = localStorage.getItem('comments');
+      if (saved) {
+        const comments = JSON.parse(saved);
+        comments.reverse().forEach(c => addCommentToPage(c.name, c.text));
+      }
+    }
+
+    function addCommentToPage(name, text) {
+      const commentBox = document.createElement('div');
+      commentBox.className = 'comment';
+      commentBox.innerHTML = `<strong>${name}</strong><p>${text}</p>`;
+      commentList.prepend(commentBox);
+    }
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const comment = document.getElementById('comment').value.trim();
+
+      if (name && comment) {
+        const commentData = { name: name, text: comment };
+
+        let saved = localStorage.getItem('comments');
+        let comments = saved ? JSON.parse(saved) : [];
+        comments.push(commentData);
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        addCommentToPage(name, comment);
+        form.reset();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', loadComments);
+  </script>
+
+</body>
+</html>
